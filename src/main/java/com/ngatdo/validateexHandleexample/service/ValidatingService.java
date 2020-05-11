@@ -1,6 +1,7 @@
 package com.ngatdo.validateexHandleexample.service;
 
 import com.ngatdo.validateexHandleexample.entity.UserEnt;
+import com.ngatdo.validateexHandleexample.exception.InvalidUserIDException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -25,7 +26,7 @@ public class ValidatingService {
      * @param user
      * @return
      */
-    public void customizedValidate(@Valid UserEnt user) throws InvalidNameException {
-        if(!(user.getUserid()).startsWith("ABC")) throw new InvalidNameException(user.getUserid() + " is invalid");
+    public void customizedValidate(@Valid UserEnt user) throws InvalidUserIDException {
+        if(!(user.getUserid()).startsWith("ABC")) throw new InvalidUserIDException("UserID: " + user.getUserid() + " is invalid");
     }
 }

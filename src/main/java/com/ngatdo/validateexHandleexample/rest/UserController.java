@@ -1,6 +1,7 @@
 package com.ngatdo.validateexHandleexample.rest;
 
 import com.ngatdo.validateexHandleexample.entity.UserEnt;
+import com.ngatdo.validateexHandleexample.exception.InvalidUserIDException;
 import com.ngatdo.validateexHandleexample.exception.RecordNotFoundException;
 import com.ngatdo.validateexHandleexample.repository.UserRepository;
 import com.ngatdo.validateexHandleexample.service.ValidatingService;
@@ -46,15 +47,11 @@ public class UserController {
      */
 
     @PostMapping(value = "/user/add/2")
-    public ResponseEntity<UserEnt> addUser2(@RequestBody  UserEnt user) throws InvalidNameException {
+    public ResponseEntity<UserEnt> addUser2(@RequestBody  UserEnt user) throws InvalidUserIDException {
         user.setExpired(1);
         user.setDisabled(0);
-        try {
-            validatingService.customizedValidate(user);
-            userRepository.save(user);
-        } catch (InvalidNameException ex){
-            throw new InvalidNameException("Userid must start with ABC");
-        }
+        validatingService.customizedValidate(user);
+        userRepository.save(user);
         return new ResponseEntity<UserEnt>(user, HttpStatus.OK);
     }
 
